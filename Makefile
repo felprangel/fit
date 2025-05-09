@@ -2,37 +2,53 @@
 PROJ_NAME=fit
 
 # .c files
-C_SOURCE=$(wildcard *.c)
+C_SOURCE=$(wildcard ./src/*.c)
 
-# .o files
-H_SOURCE=$(wildcard *.h)
+# .h files
+H_SOURCE=$(wildcard ./src/*.h)
 
 # Object files
-OBJ=$(C_SOURCE:.c=.o)
+OBJ=$(subst .c,.o,$(subst src,objects,$(C_SOURCE)))
 
-# Compiler
+# Compiler and linker
 CC=gcc
 
-# Compiler flags
-CC_FLAGS=-c        \
-		 -W        \
-		 -Wall     \
-		 -ansi     \
-		 -pedantic
+# Flags for compiler
+CC_FLAGS=-c         \
+         -W         \
+         -Wall      \
+         -ansi      \
+         -pedantic
+
+# Command used at clean target
+RM = rm -rf
 
 #
 # Compilation and linking
 #
-all: $(PROJ_NAME)
+all: objFolder $(PROJ_NAME)
 
 $(PROJ_NAME): $(OBJ)
-	$(CC) -o $@ $^
+	@ echo 'Building binary using GCC linker: $@'
+	$(CC) $^ -o $@
+	@ echo 'Finished building binary: $@'
+	@ echo ' '
 
-%.o: %.c %.h
-	$(CC) -o $@ $< $(CC_FLAGS)
+./objects/%.o: ./src/%.c ./src/%.h
+	@ echo 'Building target using GCC compiler: $<'
+	$(CC) $< $(CC_FLAGS) -o $@
+	@ echo ' '
 
-main.o: main.c $(H_SOURCE)
-	$(CC) -o $@ $< $(CC_FLAGS)
+./objects/main.o: ./src/main.c $(H_SOURCE)
+	@ echo 'Building target using GCC compiler: $<'
+	$(CC) $< $(CC_FLAGS) -o $@
+	@ echo ' '
+
+objFolder:
+	@ mkdir -p objects
 
 clean:
-	rm -rf *.o $(PROJ_NAME)
+	@ $(RM) ./objects/*.o $(PROJ_NAME) *~
+	@ rmdir objects
+
+.PHONY: all clean
