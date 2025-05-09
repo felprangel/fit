@@ -20,13 +20,19 @@ CC_FLAGS=-c        \
 		 -ansi     \
 		 -pedantic
 
-all: fit
+#
+# Compilation and linking
+#
+all: $(PROJ_NAME)
 
-fit: main.o
-	gcc -o fit main.o
+$(PROJ_NAME): $(OBJ)
+	$(CC) -o $@ $^
 
-main.o: main.c
-	gcc -o main.o main.c -c -W -Wall -ansi -pedantic
+%.o: %.c %.h
+	$(CC) -o $@ $< $(CC_FLAGS)
+
+main.o: main.c $(H_SOURCE)
+	$(CC) -o $@ $< $(CC_FLAGS)
 
 clean:
-	rm -rf *.o fit
+	rm -rf *.o $(PROJ_NAME)
