@@ -5,7 +5,7 @@ PROJ_NAME=fit
 C_SOURCE=$(wildcard ./src/*.c)
 
 # .h files
-H_SOURCE=$(wildcard ./src/*.h)
+H_SOURCE=$(wildcard ./include/*.h)
 
 # Object files
 OBJ=$(subst .c,.o,$(subst src,objects,$(C_SOURCE)))
@@ -34,7 +34,7 @@ $(PROJ_NAME): $(OBJ)
 	@ echo 'Finished building binary: $@'
 	@ echo ' '
 
-./objects/%.o: ./src/%.c ./src/%.h
+./objects/%.o: ./src/%.c ./include/%.h
 	@ echo 'Building target using GCC compiler: $<'
 	$(CC) $< $(CC_FLAGS) -o $@
 	@ echo ' '
