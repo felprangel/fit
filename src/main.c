@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "init.h"
 
@@ -10,7 +11,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    initialize_repository();
+    if (strcmp(argv[1], "init") == 0)
+    {
+        initialize_repository();
+        return 0;
+    }
 
-    printf("Hello World\n");
+    printf("%s is not a fit command.\n", argv[1]);
+    return 1;
 }
