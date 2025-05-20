@@ -18,7 +18,8 @@ CC_FLAGS=-c         \
          -W         \
          -Wall      \
          -ansi      \
-         -pedantic
+         -pedantic  \
+         -Iinclude
 
 # Command used at clean target
 RM = rm -rf
