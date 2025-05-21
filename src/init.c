@@ -8,7 +8,7 @@
 
 void initialize_repository(void)
 {
-    if (access(FIT_DIR, F_OK))
+    if (!access(FIT_DIR, F_OK))
     {
         printf("Repository already exists\n");
         return;
